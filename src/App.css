@@ -1,8 +1,24 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  z-index: 0;
 }
 
-.App-logo {
+.App::before{
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: black;
+  opacity: .5;
+  z-index: -1;
+}
+
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -35,4 +51,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

@@ -1,0 +1,13 @@
+.daDat {
+  background-color: red !important;
+  color: white !important;
+  pointer-events: none;
+}
+.daPick{
+    background-color: green !important;
+    color: white !important;
+}
+.conTrong {
+    background-color: white !important;
+    color: black !important;
+}
