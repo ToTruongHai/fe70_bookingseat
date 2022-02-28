@@ -1,0 +1,95 @@
+.content__bg {
+  position: relative;
+  z-index: 0;
+  padding: 20px;
+}
+
+.content__bg::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  opacity: 0.5;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+
+.navSeat > li {
+  margin-right: 30px;
+}
+
+.selectedSeat {
+  min-width: 20px;
+  min-height: 20px;
+  background-color: green;
+  margin-right: 10px;
+}
+.reservedSeat {
+  min-width: 20px;
+  min-height: 20px;
+  background-color: red;
+  margin-right: 10px;
+}
+.emptySeat {
+  position: relative;
+  min-width: 20px;
+  min-height: 20px;
+  background-color: white;
+  margin-right: 10px;
+}
+.emptySeat::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  top: 0;
+  left: 0;
+  background-color: orange;
+}
+.screenText {
+  background-color: orange;
+  border: 1px solid black;
+  padding: 20px 0;
+}
+.screenText > p {
+  font-weight: bold;
+  font-size: 1.5rem;
+  letter-spacing: 0.5rem;
+}
+.widthFitcontent {
+  width: fit-content;
+}
+.seatTable > tbody > tr > td {
+  text-align: center;
+  border: none;
+}
+.seatTable > tbody > tr > td > div {
+  position: relative;
+  min-width: 20px;
+  min-height: 20px;
+  width: 58px;
+  height: 24px;
+  background-color: white;
+  z-index: 0;
+  cursor: pointer;
+  margin: 0 auto;
+}
+
+.seatTable > tbody > tr > td > .daDat::before {
+  content: unset;
+}
+.seatTable > tbody > tr > td > div::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border: 3px solid orange;
+  z-index: -1;
+}
+.displayBookedSeat {
+  background-color: white;
+}
