@@ -33,6 +33,7 @@ export default class SeatList extends Component {
             <tr key={index}>
               <td>{seat.hang}</td>
               {seat.danhSachGhe.map((ghe, indexGhe) => {
+                // Make a gap between 4 and 5
                 if (indexGhe === 4) {
                   return (
                     <React.Fragment key={indexGhe}>

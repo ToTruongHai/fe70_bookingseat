@@ -49,8 +49,6 @@ class SeatItem extends Component {
   addTempPick = (ghe, newToggle) => {
     let numOfSeat = this.props.person.numOfSeat;
     let totalPick = this.props.pickingSeat;
-    console.log("asdfasdf: ", numOfSeat);
-    console.log("asdfasdf: ", totalPick.length);
     if (Number(numOfSeat) > totalPick.length) {
       this.setState({ toggle: newToggle });
       this.props.bookTheSeat(ghe);
