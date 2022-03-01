@@ -9,19 +9,19 @@ export default class SeatList extends Component {
         // Make the first row
         return (
           <tr key={index}>
-            <td>{seat.hang}</td>
+            <td style={{fontWeight: 'bold'}}>{seat.hang}</td>
             {seat.danhSachGhe.map((ghe, index) => {
               // Make a gap between 4 and 5
               if (index === 4) {
                 return (
                   <React.Fragment key={index}>
-                    <td key={index}>{ghe.soGhe}</td>
+                    <td style={{fontWeight: 'bold'}} key={index}>{ghe.soGhe}</td>
                     <td></td>
                     <td></td>
                   </React.Fragment>
                 );
               } else {
-                return <td key={index}>{ghe.soGhe}</td>;
+                return <td style={{fontWeight: 'bold'}} key={index}>{ghe.soGhe}</td>;
               }
             })}
           </tr>
@@ -31,7 +31,7 @@ export default class SeatList extends Component {
         return (
           <React.Fragment key={index}>
             <tr key={index}>
-              <td>{seat.hang}</td>
+              <td style={{fontWeight: 'bold'}}>{seat.hang}</td>
               {seat.danhSachGhe.map((ghe, indexGhe) => {
                 // Make a gap between 4 and 5
                 if (indexGhe === 4) {
@@ -64,7 +64,7 @@ export default class SeatList extends Component {
       } else {
         return (
           <tr key={index}>
-            <td>{seat.hang}</td>
+            <td style={{fontWeight: 'bold'}}>{seat.hang}</td>
             {seat.danhSachGhe.map((ghe, indexGhe) => {
               // Make a gap between 4 and 5
               if (indexGhe === 4) {

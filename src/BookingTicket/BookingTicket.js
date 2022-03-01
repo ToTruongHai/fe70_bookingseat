@@ -241,13 +241,30 @@ class BookingSeat extends Component {
       stateValue.numOfSeat !== "" &&
       isNaN(stateValue.numOfSeat) === false
     ) {
-      if (stateValue.numOfSeat <= 120 && stateValue.numOfSeat > 0) {
+      let countAvailableSeatLeft = 0;
+      arrSeat.forEach((e) => {
+        let danhSach = e.danhSachGhe;
+        let resultFilter = danhSach.filter(
+          (element) => element.daDat === false
+        );
+        countAvailableSeatLeft += resultFilter.length;
+      });
+
+      if (
+        stateValue.numOfSeat <= 120 &&
+        stateValue.numOfSeat > 0 &&
+        countAvailableSeatLeft >= stateValue.numOfSeat
+      ) {
         document.querySelector("#readyToPickText").style.display = "block";
         document.querySelector("#name").setAttribute("readonly", null);
         document.querySelector("#numOfSeat").setAttribute("readonly", null);
         this.props.allowBookingNow();
       } else {
-        alert("Please enter number within range from 1 to 120");
+        alert(
+          "Please enter number within range from 1 to 120  (only " +
+            countAvailableSeatLeft +
+            " seat left)"
+        );
       }
     } else {
       alert("Please Enter Name and Number Of Seat");
@@ -348,7 +365,7 @@ class BookingSeat extends Component {
             <table className={`table ${styles.seatTable}`}>
               <SeatList seatList={arrSeat} />
             </table>
-            <div className={`${styles.screenText}`}>
+            <div className={`${styles.screenText} mt-5`}>
               <p className="text-center m-0">SCREEN THIS WAY</p>
             </div>
           </div>
