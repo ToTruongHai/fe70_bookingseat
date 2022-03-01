@@ -9,48 +9,59 @@ class SeatItem extends Component {
     toggle: false,
   };
   renderItemSeat = () => {
-    let { ghe, pickedSeat } = this.props;
+    let { ghe, allowStatus } = this.props;
+
     if (ghe.daDat === true) {
       return <div className={`${styles.daDat}`}>{ghe.soGhe}</div>;
     } else {
-      return (
-        <div
-          style={{
-            backgroundColor: this.state.toggle ? "green" : "white",
-            color: this.state.toggle ? "white" : "black",
-          }}
-          onClick={() => {
-            this.addTempPick(ghe, !this.state.toggle);
-          }}
-        >
-          {ghe.soGhe}
-        </div>
-      );
+      if (allowStatus.status === false) {
+        return (
+          <div
+            style={{
+              backgroundColor: this.state.toggle ? "green" : "white",
+              color: this.state.toggle ? "white" : "black",
+              pointerEvents: "none",
+            }}
+            onClick={() => {
+              this.addTempPick(ghe, !this.state.toggle);
+            }}
+          >
+            {ghe.soGhe}
+          </div>
+        );
+      } else {
+        return (
+          <div
+            style={{
+              backgroundColor: this.state.toggle ? "green" : "white",
+              color: this.state.toggle ? "white" : "black",
+            }}
+            onClick={() => {
+              this.addTempPick(ghe, !this.state.toggle);
+            }}
+          >
+            {ghe.soGhe}
+          </div>
+        );
+      }
     }
   };
   addTempPick = (ghe, newToggle) => {
-    // if (tempPick === undefined) {
-    //   tempPick.push(ghe);
-    //   this.setState({ toggle: true });
-    //   this.props.bookTheSeat(tempPick);
-    // } else {
-    //   let removeDuplicate = tempPick.findIndex(
-    //     (seat) => seat.soGhe === ghe.soGhe
-    //   );
-    //   if (removeDuplicate !== -1) {
-    //     tempPick.splice(removeDuplicate, 1);
-    //     this.setState({ toggle: false });
-    //     this.props.bookTheSeat(tempPick);
-    //   } else {
-    //     tempPick.push(ghe);
-    //     this.setState({ toggle: true });
-    //     this.props.bookTheSeat(tempPick);
-    //   }
-    // }
-
+    let numOfSeat = this.props.person.numOfSeat;
+    let totalPick = this.props.pickingSeat;
+    console.log("asdfasdf: ", numOfSeat);
+    console.log("asdfasdf: ", totalPick.length);
+    if (Number(numOfSeat) > totalPick.length) {
       this.setState({ toggle: newToggle });
       this.props.bookTheSeat(ghe);
-    
+    } else if (Number(numOfSeat) === totalPick.length) {
+      totalPick.map((pSeat, index) => {
+        if (pSeat.soGhe === ghe.soGhe) {
+          this.setState({ toggle: newToggle });
+          this.props.bookTheSeat(ghe);
+        }
+      });
+    }
   };
   render() {
     return <React.Fragment>{this.renderItemSeat()}</React.Fragment>;
@@ -58,7 +69,9 @@ class SeatItem extends Component {
 }
 const mapStateTopProps = (rootReducer) => {
   return {
-    pickedSeat: rootReducer.bookingTicketReducer.pickingSeat,
+    allowStatus: rootReducer.bookingTicketReducer.isAllowBooking,
+    person: rootReducer.bookingTicketReducer.person,
+    pickingSeat: rootReducer.bookingTicketReducer.pickingSeat,
   };
 };
 

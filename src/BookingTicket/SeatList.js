@@ -6,10 +6,12 @@ export default class SeatList extends Component {
     let { seatList } = this.props;
     return seatList.map((seat, index) => {
       if (seat.hang === "") {
+        // Make the first row
         return (
           <tr key={index}>
             <td>{seat.hang}</td>
             {seat.danhSachGhe.map((ghe, index) => {
+              // Make a gap between 4 and 5
               if (index === 4) {
                 return (
                   <React.Fragment key={index}>
@@ -25,6 +27,7 @@ export default class SeatList extends Component {
           </tr>
         );
       } else if (seat.hang === "E") {
+        // Make a gap between E and F
         return (
           <React.Fragment key={index}>
             <tr key={index}>
@@ -62,6 +65,7 @@ export default class SeatList extends Component {
           <tr key={index}>
             <td>{seat.hang}</td>
             {seat.danhSachGhe.map((ghe, indexGhe) => {
+              // Make a gap between 4 and 5
               if (indexGhe === 4) {
                 return (
                   <React.Fragment key={indexGhe}>
@@ -73,6 +77,7 @@ export default class SeatList extends Component {
                   </React.Fragment>
                 );
               } else {
+                // Make all the seat
                 return (
                   <td key={indexGhe}>
                     <SeatItem ghe={ghe} />
