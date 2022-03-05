@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import styles from "./BookingTicket.module.css";
+import DisplayInfor from "./DisplayInfor";
+import InputInfor from "./InputInfor";
 import SeatList from "./SeatList";
 
 let arrSeat = [
@@ -193,84 +194,7 @@ let arrSeat = [
   },
 ];
 
-class BookingSeat extends Component {
-  updateText = (evt) => {
-    const evtTarget = evt.target;
-
-    if (evtTarget.id === "name") {
-      let person = {
-        name: evtTarget.value,
-        numOfSeat: this.props.person.numOfSeat,
-      };
-      this.props.updatePerson(person);
-    } else if (evtTarget.id === "numOfSeat") {
-      let person = {
-        name: this.props.person.name,
-        numOfSeat: evtTarget.value,
-      };
-      this.props.updatePerson(person);
-    }
-  };
-
-  confirmBooking = () => {
-    if (this.props.allowStatus.status === true) {
-      if (
-        Number(this.props.person.numOfSeat) === this.props.pickingSeat.length
-      ) {
-        this.props.bookTheSeat(this.props.person);
-        this.props.disableBookingNow();
-        document.querySelector("#name").removeAttribute("readonly");
-        document.querySelector("#numOfSeat").removeAttribute("readonly");
-        document.querySelector("#readyToPickText").style.display = "none";
-
-        let person = {
-          name: "",
-          numOfSeat: "",
-        };
-        this.props.updatePerson(person);
-      } else {
-        alert("Please Pick " + this.props.person.numOfSeat + " Seat");
-      }
-    }
-  };
-
-  startPickingSeat = () => {
-    const stateValue = this.props.person;
-    if (
-      stateValue.name !== "" &&
-      stateValue.numOfSeat !== "" &&
-      isNaN(stateValue.numOfSeat) === false
-    ) {
-      let countAvailableSeatLeft = 0;
-      arrSeat.forEach((e) => {
-        let danhSach = e.danhSachGhe;
-        let resultFilter = danhSach.filter(
-          (element) => element.daDat === false
-        );
-        countAvailableSeatLeft += resultFilter.length;
-      });
-
-      if (
-        stateValue.numOfSeat <= 120 &&
-        stateValue.numOfSeat > 0 &&
-        countAvailableSeatLeft >= stateValue.numOfSeat
-      ) {
-        document.querySelector("#readyToPickText").style.display = "block";
-        document.querySelector("#name").setAttribute("readonly", null);
-        document.querySelector("#numOfSeat").setAttribute("readonly", null);
-        this.props.allowBookingNow();
-      } else {
-        alert(
-          "Please enter number within range from 1 to 120  (only " +
-            countAvailableSeatLeft +
-            " seat left)"
-        );
-      }
-    } else {
-      alert("Please Enter Name and Number Of Seat");
-    }
-  };
-
+export default class BookingSeat extends Component {
   render() {
     return (
       <div className="container">
@@ -282,56 +206,7 @@ class BookingSeat extends Component {
             Fill The Required Details Below And Select Your Seats
           </h5>
           {/* ---INPUT FIELD--- */}
-          <form className="form-group row was-validated">
-            <div className="col-6">
-              <label>
-                <b>Name</b>
-                <span style={{ color: "red" }}>*</span>
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={this.props.person.name}
-                onChange={(evt) => {
-                  this.updateText(evt);
-                }}
-                className="form-control"
-                required
-              />
-              <div className="invalid-feedback">
-                Please fill out this field.
-              </div>
-            </div>
-            <div className="col-6">
-              <label>
-                <b>Number of seat</b>
-                <span style={{ color: "red" }}>*</span>
-              </label>
-              <input
-                type="text"
-                pattern="[0-9]*"
-                id="numOfSeat"
-                value={this.props.person.numOfSeat}
-                onChange={(evt) => {
-                  this.updateText(evt);
-                }}
-                className="form-control"
-                required
-              />
-              <div className="invalid-feedback">
-                Please fill out this field.
-              </div>
-            </div>
-          </form>
-          {/* ---BUTTON START SELECT--- */}
-          <button
-            className={`btn btn-primary`}
-            onClick={() => {
-              this.startPickingSeat();
-            }}
-          >
-            Start Selecting
-          </button>
+          <InputInfor arrSeat={arrSeat} />
           {/* ---SEAT INFO--- */}
           <ul className={`nav mt-3 ${styles.navSeat}`}>
             <li className="nav-item">
@@ -369,100 +244,10 @@ class BookingSeat extends Component {
               <p className="text-center m-0">SCREEN THIS WAY</p>
             </div>
           </div>
-          {/* ---CONFIRM SELECTION--- */}
-          <div className={`mt-5 ml-auto mr-auto ${styles.widthFitcontent}`}>
-            <button
-              onClick={() => {
-                this.confirmBooking();
-              }}
-              className={`btn btn-success `}
-            >
-              Confirm Selection
-            </button>
-          </div>
-          {/* ---TABLE LIST OF BOOKED SEAT--- */}
-          <table className={`table mt-5 ${styles.displayBookedSeat}`}>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Number of seat</th>
-                <th>Seat</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.props.bookedSeat.map((booked, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{booked.name}</td>
-                    <td>{booked.numOfSeat}</td>
-                    <td style={{ overflowWrap: "anywhere" }}>
-                      {booked.seat.map((s, index, row) => {
-                        if (index + 1 === row.length) {
-                          return (
-                            <React.Fragment key={index}>
-                              {s.soGhe}
-                            </React.Fragment>
-                          );
-                        } else {
-                          return (
-                            <React.Fragment key={index}>
-                              {s.soGhe},&nbsp;
-                            </React.Fragment>
-                          );
-                        }
-                      })}
-                    </td>
-                    <td>{booked.price}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          {/* ---DISPLAY INFO--- */}
+          <DisplayInfor styles={styles} />
         </div>
       </div>
     );
   }
 }
-
-const mapStateTopProps = (rootReducer) => {
-  return {
-    bookedSeat: rootReducer.bookingTicketReducer.bookedSeat,
-    allowStatus: rootReducer.bookingTicketReducer.isAllowBooking,
-    pickingSeat: rootReducer.bookingTicketReducer.pickingSeat,
-    person: rootReducer.bookingTicketReducer.person,
-  };
-};
-
-const mapDispatchToProps = (dispath) => {
-  return {
-    bookTheSeat: (person) => {
-      const action = {
-        type: "CONFIRM_SEAT",
-        person: person,
-      };
-      dispath(action);
-    },
-    updatePerson: (person) => {
-      const action = {
-        type: "UPDATE_PERSON",
-        person: person,
-      };
-      dispath(action);
-    },
-    allowBookingNow: () => {
-      const action = {
-        type: "ALLOW_BOOKING",
-      };
-      dispath(action);
-    },
-    disableBookingNow: () => {
-      const action = {
-        type: "DISABLE_BOOKING",
-      };
-      dispath(action);
-    },
-  };
-};
-
-export default connect(mapStateTopProps, mapDispatchToProps)(BookingSeat);
